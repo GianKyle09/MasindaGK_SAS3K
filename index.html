@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Gian Kyle Go Masinda</title>
+    <title>My Portfolio</title>
     <style>
         :root {
             --background: #e6e9ef;
@@ -369,6 +369,56 @@
             transform: translateY(-50px);
         }
 
+        /* Interest/Values Display */
+        .interest-box {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interest-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--accent);
+        }
+
+        .interest-label {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .bar-chart {
+            height: 20px;
+            background: var(--shadow-light);
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            overflow: hidden;
+            box-shadow: inset 2px 2px 4px var(--shadow-dark);
+        }
+
+        .bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent) 70%, rgba(84, 105, 212, 0.7));
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        .interests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .container {
@@ -386,6 +436,9 @@
             .nav-links {
                 flex-direction: column;
                 align-items: center;
+            }
+            .interests-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -625,6 +678,15 @@
                 
                 // Scroll to the section
                 targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // Animate bars in PCK section when it becomes visible
+                if (targetSection === 'reflection') {
+                    setTimeout(() => {
+                        document.querySelectorAll('.bar').forEach(bar => {
+                            bar.style.width = bar.style.width;
+                        });
+                    }, 300);
+                }
             });
         });
         
