@@ -3,59 +3,652 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
-    <link rel="stylesheet" href="main.css">
+    <title>Portfolio | Gian Kyle Go Masinda</title>
+    <style>
+        :root {
+            --background: #e6e9ef;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --accent: #5469d4;
+            --shadow-light: #ffffff;
+            --shadow-dark: #c8cdd8;
+            --card-bg: #e6e9ef;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: block;
+            background-color: var(--card-bg);
+            box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+            object-fit: cover;
+        }
+
+        .neo-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+            transition: transform 0.3s ease, opacity 0.6s ease, max-height 0.8s ease;
+            overflow: hidden;
+        }
+
+        .neo-card:not(.active) {
+            max-height: 0;
+            padding: 0;
+            margin: 0;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .neo-card.active {
+            max-height: 5000px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .neo-card.fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            bottom: -5px;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--card-bg);
+            color: var(--accent);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+            color: var(--accent);
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .skill-tag {
+            background-color: var(--card-bg);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+        }
+
+        .timeline {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .timeline-item {
+            margin-bottom: 2rem;
+            position: relative;
+            padding-left: 2rem;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .neo-card.active .timeline-item {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item:nth-child(1) {
+            transition-delay: 0.2s;
+        }
+
+        .timeline-item:nth-child(2) {
+            transition-delay: 0.4s;
+        }
+
+        .timeline-item:nth-child(3) {
+            transition-delay: 0.6s;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            left: -7px;
+            top: 5px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            background-color: var(--accent);
+            left: 0;
+            top: 0;
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+            transition: transform 0.3s ease, opacity 0.5s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .neo-card.active .project-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-card:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .project-card:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .project-card:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .project-card:nth-child(4) {
+            transition-delay: 0.4s;
+        }
+
+        .project-card:nth-child(5) {
+            transition-delay: 0.5s;
+        }
+
+        .project-card:nth-child(6) {
+            transition-delay: 0.6s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--card-bg);
+            border-radius: 50%;
+            color: var(--accent);
+            text-decoration: none;
+            box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            box-shadow: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light);
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: var(--background);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            background-color: var(--card-bg);
+            color: var(--text-secondary);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+            color: var(--accent);
+        }
+        
+        /* Animated welcome screen */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        
+        .welcome-content {
+            text-align: center;
+            transform: translateY(0);
+            transition: transform 0.8s ease;
+        }
+        
+        .welcome-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .welcome-screen.fade-out .welcome-content {
+            transform: translateY(-50px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Main Header Section -->
-    <header class="header">
-        <h1>Welcome to My Portfolio</h1>
-        <p>Explore my work and learn more about my journey.</p>
-    </header>
-
-    <!-- Self-introduction Section -->
-    <section class="intro">
-        <h2>About Me</h2>
-        <p>Hi! I’m [Your Name], a passionate [Your Profession]. I specialize in [Your Specializations]. With a strong background in [Relevant Skills], I'm committed to creating impactful and meaningful work. I believe in continuous learning and strive to always improve my skills.</p>
-    </section>
-
-    <!-- Public Profile Section -->
-    <section class="profile">
-        <h2>Public Profile</h2>
-        <p>You can view my professional profile and connect with me on <a href="https://www.linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>!</p>
-    </section>
-
-    <!-- Reflection on APQ and PCK -->
-    <section class="reflection">
-        <h2>Reflection on APQ and PCK</h2>
-        <p>APQ (Academic Performance Quotient) and PCK (Pedagogical Content Knowledge) are important benchmarks in my growth. The APQ helped me track my academic progress while PCK reflects my deepening understanding of how to teach and engage students effectively. These assessments have shaped my approach towards education and learning, providing me with valuable insights.</p>
-    </section>
-
-    <!-- Resume Section -->
-    <section class="resume">
-        <h2>My Resume</h2>
-        <p>Check out my detailed resume to learn about my skills, experiences, and educational background. You can download it here: <a href="path/to/your-resume.pdf" target="_blank">Download Resume</a></p>
-    </section>
-
-    <!-- Academic Work Samples -->
-    <section class="work-samples">
-        <h2>Academic Work Samples</h2>
-        <div class="gallery">
-            <div class="item">
-                <img src="images/project1.jpg" alt="Project 1">
-                <p>Project 1 - Description of the project and its relevance.</p>
-            </div>
-            <div class="item">
-                <img src="images/project2.jpg" alt="Project 2">
-                <p>Project 2 - Description of the project and its relevance.</p>
-            </div>
-            <!-- Add more items here as needed -->
+    <!-- Welcome Screen -->
+    <div class="welcome-screen">
+        <div class="welcome-content">
+            <img src="dp.png" alt="Profile Picture" class="profile-pic">
+            <h1>Gian Kyle Go Masinda</h1>
+            <p>IV - Electronics Engineering</p>
+            <button class="btn enter-btn">Enter Portfolio</button>
         </div>
-    </section>
+    </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2025 [Your Name]. All rights reserved.</p>
-    </footer>
+    <div class="container">
+        <header>
+            <img src="dp.png" alt="Profile Picture" class="profile-pic">
+            <h1>Gian Kyle Go Masinda</h1>
+            <p>IV - Electronics Engineering</p>
+        </header>
+
+        <nav>
+            <div class="nav-links">
+                <div class="nav-link active" data-section="about">About</div>
+                <div class="nav-link" data-section="profile">LSLinks Profile</div>
+                <div class="nav-link" data-section="reflection">Reflections</div>
+                <div class="nav-link" data-section="resume">Resume</div>
+                <div class="nav-link" data-section="portfolio">Portfolio</div>
+            </div>
+        </nav>
+
+        <section id="about" class="neo-card active">
+            <h2>About Me</h2>
+            <p>I am an Electronics Engineering student with a minor in Data Science, deeply committed to exploring innovative technologies and practices. I have successfully taken on the role of President of the Electronics and Communications Engineering Society (ECES), showcasing my leadership abilities and dedication to personal and professional growth. My passion for automation and AI drives me to stay at the forefront of technological advancements and continuously seek new ways to apply my skills.</p>
+            
+            <div class="skills">
+                <span class="skill-tag">Electronics Engineering</span>
+                <span class="skill-tag">Information Technology</span>
+                <span class="skill-tag">Data Science</span>
+                <span class="skill-tag">Artificial Intelligence</span>
+                <span class="skill-tag">Student Leader</span>
+            </div>
+        </section>
+
+        <section id="profile" class="neo-card">
+            <h2>LSLinks Public Profile</h2>
+            <p>Connect with me professionally and explore my contributions to the educational community through my LSLinks profile.</p>
+            <a href="https://dlsu-vcf-csm.symplicity.com/profiles/giankyle.masinda" class="btn">View LSLinks Profile</a>
+        </section>
+
+        <section id="reflection" class="neo-card">
+            <h2>Reflections on APQ and PCK</h2>
+            <p>My journey through the Assessment Practice Questionnaire (APQ) and Pedagogical Content Knowledge (PCK) assessments has been transformative for my teaching practice. Here are some key insights:</p>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">APQ Insights</div>
+                    <p>Through the APQ, I discovered my tendency to prioritize formative assessments that provide immediate feedback. This has allowed me to make real-time adjustments to my teaching strategies, resulting in more responsive instruction tailored to student needs.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">PCK Development</div>
+                    <p>My PCK results revealed strengths in conceptual understanding and content representation but highlighted areas for growth in recognizing student preconceptions. This awareness has led me to implement pre-assessment strategies that help identify and address misconceptions before they become barriers to learning.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Integration into Practice</div>
+                    <p>By integrating the insights from both assessments, I've developed a more holistic approach to teaching that considers both the "what" and "how" of learning. This integration has resulted in more engaged students and improved learning outcomes across diverse student populations.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="resume" class="neo-card">
+            <h2>Professional Experience</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2021 - Present</div>
+                    <h3>Senior Educational Researcher</h3>
+                    <p>Institute of Educational Innovation</p>
+                    <ul>
+                        <li>Lead research initiatives exploring effective integration of technology in K-12 classrooms</li>
+                        <li>Developed assessment frameworks used by over 50 schools nationwide</li>
+                        <li>Published 7 peer-reviewed articles on pedagogical approaches for diverse learners</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2018 - 2021</div>
+                    <h3>Curriculum Developer</h3>
+                    <p>National Education Center</p>
+                    <ul>
+                        <li>Designed inquiry-based science curriculum implemented in 200+ classrooms</li>
+                        <li>Created professional development modules for in-service teachers</li>
+                        <li>Collaborated with district leaders to align curriculum with state standards</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2015 - 2018</div>
+                    <h3>High School Science Teacher</h3>
+                    <p>Lincoln Academy</p>
+                    <ul>
+                        <li>Taught Biology and Environmental Science to grades 9-12</li>
+                        <li>Developed project-based learning units that increased student engagement by 35%</li>
+                        <li>Mentored new teachers in effective classroom management strategies</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>Education</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2019 - 2020</div>
+                    <h3>M.Ed. in Curriculum and Instruction</h3>
+                    <p>University of Education - GPA: 3.95/4.0</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2011 - 2015</div>
+                    <h3>B.S. in Biology, Minor in Education</h3>
+                    <p>State University - GPA: 3.8/4.0</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="neo-card">
+            <h2>Academic Work Samples</h2>
+            <p>Below is a collection of my most significant academic contributions and projects that demonstrate my expertise and approach to education.</p>
+            
+            <div class="project-grid">
+                <div class="project-card">
+                    <img src="/api/placeholder/400/200" alt="Research Project" class="project-img">
+                    <div class="project-content">
+                        <h3>Digital Literacy Framework</h3>
+                        <p>A comprehensive framework for assessing and developing digital literacy skills across grade levels, now implemented in multiple school districts.</p>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img src="/api/placeholder/400/200" alt="Curriculum Development" class="project-img">
+                    <div class="project-content">
+                        <h3>Inquiry-Based Science Curriculum</h3>
+                        <p>A series of learning modules emphasizing hands-on experimentation and critical thinking for middle school science education.</p>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img src="/api/placeholder/400/200" alt="Published Research" class="project-img">
+                    <div class="project-content">
+                        <h3>Research Publication</h3>
+                        <p>"Bridging the Gap: Integrative Assessment Methods for Diverse Learners" - Published in the Journal of Educational Research, 2022.</p>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img src="/api/placeholder/400/200" alt="Professional Development" class="project-img">
+                    <div class="project-content">
+                        <h3>Teacher Training Module</h3>
+                        <p>A professional development series for educators focusing on culturally responsive teaching practices and inclusive classroom strategies.</p>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img src="/api/placeholder/400/200" alt="Educational Technology" class="project-img">
+                    <div class="project-content">
+                        <h3>EdTech Integration Guide</h3>
+                        <p>A practical guide for educators on effectively selecting and implementing technology tools to enhance student learning outcomes.</p>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img src="/api/placeholder/400/200" alt="Assessment Tool" class="project-img">
+                    <div class="project-content">
+                        <h3>Formative Assessment Toolkit</h3>
+                        <p>A collection of innovative assessment strategies designed to provide meaningful feedback and promote student agency in the learning process.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2025 John Doe. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#" class="social-icon">𝕏</a>
+                <a href="#" class="social-icon">in</a>
+                <a href="#" class="social-icon">f</a>
+                <a href="#" class="social-icon">G</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Welcome screen animation
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.querySelector('.welcome-screen').classList.add('fade-out');
+            }, 2000);
+            
+            document.querySelector('.enter-btn').addEventListener('click', function() {
+                document.querySelector('.welcome-screen').classList.add('fade-out');
+            });
+        });
+    
+        // Navigation and section visibility
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.neo-card');
+        
+        // Show only the About section initially
+        sections.forEach(section => {
+            if (section.id !== 'about') {
+                section.classList.remove('active');
+            }
+        });
+        
+        // Handle navigation clicks
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                const targetSection = this.getAttribute('data-section');
+                
+                // Update active nav link
+                navLinks.forEach(navLink => {
+                    navLink.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Hide all sections
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Show target section with animation
+                const targetElement = document.getElementById(targetSection);
+                targetElement.classList.add('active');
+                
+                // Scroll to the section
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+        
+        // Add animation classes to items when they enter viewport
+        const observerOptions = {
+            threshold: 0.2
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const timeline = entry.target.querySelectorAll('.timeline-item');
+                    timeline.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateX(0)';
+                        }, 200 * index);
+                    });
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.timeline').forEach(timeline => {
+            observer.observe(timeline);
+        });
+    </script>
 </body>
 </html>
